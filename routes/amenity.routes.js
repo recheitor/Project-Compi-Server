@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const uploaderMiddleware = require('../middleware/uploader.middleware');
+
 const {
     createAmenity,
     getAllAmenities,
