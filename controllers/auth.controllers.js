@@ -5,7 +5,7 @@ const signupAuth = (req, res, next) => {
     const userData = { firstName, lastName, email, password, bio } = req.body
 
     User
-        .create({ userData })
+        .create(userData)
         .then(() => res.sendStatus(201))
         .catch(err => next(err))
 }
