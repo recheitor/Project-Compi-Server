@@ -20,4 +20,7 @@ module.exports = app => {
 
     const ratingsRoutes = require("./rating.routes")
     app.use("/api/ratings", ratingsRoutes)
+
+    const uploadsRoutes = require("./upload.routes")
+    app.use("/api/uploads", uploadsRoutes)
 }
