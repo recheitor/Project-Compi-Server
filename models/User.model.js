@@ -26,7 +26,7 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String,
-      default: 'none'
+      default: 'https://i.stack.imgur.com/l60Hf.png'
     },
     role: {
       type: String,
@@ -44,7 +44,6 @@ const userSchema = new Schema(
     },
     bio: {
       type: String,
-      default: 'No description'
     },
     favorites: [{
       type: Schema.Types.ObjectId,

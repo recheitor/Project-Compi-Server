@@ -17,18 +17,8 @@ router.post('/images', uploaderMiddleware.array('imagesData', 12), (req, res) =>
         res.status(500).json({ errorMessage: 'Error loading file' })
         return
     }
-    console.log(req.files)
-    // let imageUrlList = []
-
-    // for (let i = 0; i < req.files.length; i++) {
-    //     const localFilePath = req.files[i].path
-    //     const result = 
-
-    //     imageUrlList.push(result.url)
-    // }
-
-
-    // res.json({ cloudinary_url: req.files.path })
+    const urls = req.files.map(file => file.path)
+    res.json({ cloudinary_urls: urls })
 })
 
 module.exports = router
