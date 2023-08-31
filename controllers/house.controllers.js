@@ -27,7 +27,15 @@ const getHousesbyType = (req, res, next) => {
 
     House
         .find({ rooms: queryType })
-        .populate('rooms')
+        .populate(['rooms',
+            'rating',
+            {
+                path: 'owner', populate: {
+                    path: 'rating'
+                }
+            },
+            'amenities.amenity'
+        ])
         .then((houses) => res.json(houses))
         .catch(err => next(err))
 }
@@ -50,6 +58,25 @@ const getOneHouse = (req, res, next) => {
     House
         .findById(house_id)
         .populate([
+            'rating',
+            {
+                path: 'owner', populate: {
+                    path: 'rating'
+                }
+            },
+            'amenities.amenity'
+        ])
+        .then((house) => res.json(house))
+        .catch(err => next(err))
+}
+
+const getOneHouseRoom = (req, res, next) => {
+
+    const { house_id } = req.params
+
+    House
+        .findById(house_id)
+        .populate(['rooms',
             'rating',
             {
                 path: 'owner', populate: {
@@ -90,6 +117,7 @@ module.exports = {
     getHousesbyType,
     getHousesbyOwnerId,
     getOneHouse,
+    getOneHouseRoom,
     editHouse,
     deleteHouse
 }
