@@ -49,6 +49,15 @@ const getOneHouse = (req, res, next) => {
 
     House
         .findById(house_id)
+        .populate([
+            'rating',
+            {
+                path: 'owner', populate: {
+                    path: 'rating'
+                }
+            },
+            'amenities.amenity'
+        ])
         .then((house) => res.json(house))
         .catch(err => next(err))
 }

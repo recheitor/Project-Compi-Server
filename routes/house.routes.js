@@ -5,16 +5,16 @@ const { verifyToken } = require("../middleware/verifyToken")
 // falta testear accomodationServices + adress googlemaps + owner
 router.post('/create-house', verifyToken, createHouse)
 
-router.get("/get-all-houses", getAllHouses)
+router.get("/get-all-houses", verifyToken, getAllHouses)
 
-router.get("/get-houses/:rent_type", getHousesbyType)
+router.get("/get-houses/:rent_type", verifyToken, getHousesbyType)
 
-router.get("/get-my-houses/:user_id", getHousesbyOwnerId)
+router.get("/get-my-houses/:user_id", verifyToken, getHousesbyOwnerId)
 
-router.get("/:house_id", getOneHouse)
+router.get("/:house_id", verifyToken, getOneHouse)
 
-router.post("/:house_id/edit", editHouse)
+router.post("/:house_id/edit", verifyToken, editHouse)
 
-router.post("/:house_id/delete", deleteHouse)
+router.post("/:house_id/delete", verifyToken, deleteHouse)
 
 module.exports = router
