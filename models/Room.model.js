@@ -32,7 +32,7 @@ const roomSchema = new Schema(
             },
             bathroom: {
                 type: String,
-                enum: ['shared', 'private'],
+                enum: ['Shared', 'Private'],
                 required: [true, 'Select type of bathroom'],
             },
         },

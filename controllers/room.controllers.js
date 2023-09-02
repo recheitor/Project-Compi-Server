@@ -51,7 +51,12 @@ const editRoom = (req, res, next) => {
 const deleteRoom = (req, res, next) => {
 
     const { room_id } = req.params
+    const { house_id } = req.body
 
+    House
+        .findByIdAndUpdate(house_id, { $pull: { rooms: room_id } })
+        .then(() => res.status(200).json({ message: "Room deleted from house" }))
+        .catch(err => next(err))
     Room
         .findByIdAndDelete(room_id)
         .then(() => res.status(200).json({ message: "Room deleted" }))

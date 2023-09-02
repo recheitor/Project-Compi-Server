@@ -22,11 +22,47 @@ const getAllHouses = (req, res, next) => {
 const getHousesbyType = (req, res, next) => {
 
     const { rent_type } = req.params
-
     const queryType = rent_type === 'entire' ? [] : { $not: { $eq: [] } }
+    let query = { rooms: queryType }
+    let sortBy = ''
+
+    let { price } = req.query
+    if (price) {
+        query = { ...query, ...{ "price.housePrice": price } }
+    }
+
+    let { beds } = req.query
+    if (beds) {
+        const bedsObj = { "info.beds": { $gte: beds } }
+        query = { ...query, ...bedsObj }
+    }
+
+    let { bathrooms } = req.query
+    if (bathrooms) {
+        const bathroomObj = { "info.bathrooms": { $gte: bathrooms } }
+        query = { ...query, ...bathroomObj }
+    }
+
+    let { sort } = req.query
+    if (sort === 'beds') {
+        sortBy = { "info.beds": 1 }
+    }
+    console.log(query)
+
+
+    // let { title } = req.query;
+    // if (title) {
+    //     query.title = title
+    // }
+
+    // let { description } = req.query;
+    // if (description) {
+    //     query.description = description
+    // }
 
     House
-        .find({ rooms: queryType })
+        .find(query)
+        .sort(sortBy)
         .populate(['rooms',
             'rating',
             {
