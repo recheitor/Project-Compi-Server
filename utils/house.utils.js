@@ -40,13 +40,13 @@ const getNewHouseData = ({
     zipcode,
     city,
     country,
-    amenity,
+    amenities,
     included }) => {
 
     const price = { housePrice, cleaningPrice }
     const address = { street, number, zipcode, city, country }
     const info = { maxGuests, rooms, beds, bathrooms }
-    const amenities = { amenity, included }
+
     const newHouseData = { title, gallery, description, info, price, address, amenities }
 
     return newHouseData

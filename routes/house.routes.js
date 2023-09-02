@@ -7,7 +7,7 @@ router.post('/create-house', verifyToken, createHouse)
 
 router.get("/get-all-houses", verifyToken, getAllHouses)
 
-router.get("/get-houses/:rent_type", getHousesbyType)
+router.get("/get-houses/:rent_type", verifyToken, getHousesbyType)
 
 router.get("/get-my-houses/:user_id", verifyToken, getHousesbyOwnerId)
 
