@@ -1,26 +1,51 @@
 const User = require("../models/User.model")
 
-const usersAuth = (req, res, next) => {
+const users = (req, res, next) => {
 
     User
         .find()
-        // TODO: proyectar finds
-        // TODO: sort finds
-        .then(users => res.json({ users }))
+        .select({
+            _id: 1,
+            firstName: 1,
+            lastName: 1,
+            avatar: 1,
+            rating: 1,
+            favorites: 0
+        })
+        .sort({ lastName: 1 })
+        .populate([
+            'rating',
+            {
+                path: 'rating', populate: {
+                    path: 'userId'
+                }
+            },
+            'favorites'
+        ])
+        .then(users => res.json(users))
         .catch(err => next(err))
 }
 
-const userAuth = (req, res, next) => {
+const user = (req, res, next) => {
 
     const { user_id } = req.params
 
     User
         .findById(user_id)
-        .then((user) => res.json({ user }))
+        .populate([
+            'rating',
+            {
+                path: 'rating', populate: {
+                    path: 'userId'
+                }
+            },
+            'favorites'
+        ])
+        .then(user => res.json(user))
         .catch(err => next(err))
 }
 
-const editUserAuth = (req, res, next) => {
+const editUser = (req, res, next) => {
 
     const { user_id } = req.params
     const newUserData = { firstName, lastName, email } = req.body
@@ -31,7 +56,7 @@ const editUserAuth = (req, res, next) => {
         .catch(err => next(err))
 }
 
-const deleteUserAuth = (req, res, next) => {
+const deleteUser = (req, res, next) => {
 
     const { user_id } = req.params
 
@@ -42,8 +67,8 @@ const deleteUserAuth = (req, res, next) => {
 }
 
 module.exports = {
-    usersAuth,
-    userAuth,
-    deleteUserAuth,
-    editUserAuth
+    users,
+    user,
+    editUser,
+    deleteUser
 }

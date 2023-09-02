@@ -8,20 +8,17 @@ const userSchema = new Schema(
     firstName: {
       type: String,
       required: [true, 'First name is required.'],
-      lowercase: true,
       trim: true
     },
     lastName: {
       type: String,
       required: [true, 'Last name is required.'],
-      lowercase: true,
       trim: true
     },
     email: {
       type: String,
       required: [true, 'Email is required.'],
       unique: true,
-      lowercase: true,
       trim: true
     },
     avatar: {
@@ -30,7 +27,8 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ['ADMIN', 'GUEST', 'OWNER']
+      enum: ['ADMIN', 'GUEST', 'OWNER'],
+      default: 'GUEST'
     },
     rating:
       [{
@@ -68,8 +66,8 @@ userSchema.pre('save', function (next) {
 
 
 userSchema.methods.signToken = function () {
-  const { _id, firstName, email } = this
-  const payload = { _id, firstName, email }
+  const { _id, role, firstName, email } = this
+  const payload = { _id, role, firstName, email }
 
   const authToken = jwt.sign(
     payload,

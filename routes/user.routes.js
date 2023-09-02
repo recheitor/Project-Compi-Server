@@ -1,13 +1,13 @@
 const router = require("express").Router()
-const { usersAuth, editUserAuth, deleteUserAuth, userAuth } = require("../controllers/user.controllers");
+const { users, user, editUser, deleteUser } = require("../controllers/user.controllers");
 
 
-router.get('/users', usersAuth)
+router.get('/users', users)
 
-router.get('/:user_id', userAuth)
+router.get('/:user_id', user)
 
-router.post('/:user_id/edit', editUserAuth)
+router.post('/:user_id/edit', editUser)
 
-router.post('/:user_id/delete', deleteUserAuth)
+router.post('/:user_id/delete', deleteUser)
 
 module.exports = router
