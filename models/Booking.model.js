@@ -2,10 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const bookingsSchema = new Schema(
     {
-        house: {
-            type: Schema.Types.ObjectId,
-            ref: 'House'
-        },
+        // house: {
+        //     type: Schema.Types.ObjectId,
+        //     ref: 'House'
+        // },
         room: {
             type: Schema.Types.ObjectId,
             ref: 'Room'
@@ -22,16 +22,12 @@ const bookingsSchema = new Schema(
                 type: Date,
             }
         },
-        guestsNumber: {
-            type: Number,
-        },
+        // guestsNumber: {
+        //     type: Number,
+        // },
         price: {
             type: Number,
-        },
-        rating: [{
-            type: Schema.Types.ObjectId,
-            ref: 'Rating'
-        }],
+        }
     },
     {
         timestamps: true

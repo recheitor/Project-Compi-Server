@@ -2,6 +2,7 @@ const router = require("express").Router();
 const {
     createBooking,
     getAllBookings,
+    getAllRoomBookings,
     getOneBooking,
     editBooking,
     deleteBooking
@@ -11,6 +12,8 @@ const {
 router.post('/create-booking', createBooking)
 
 router.get("/get-all-bookings", getAllBookings)
+
+router.get("/get-all-room-bookings", getAllRoomBookings)
 
 router.get("/:booking_id", getOneBooking)
 

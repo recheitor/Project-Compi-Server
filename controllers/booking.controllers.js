@@ -19,6 +19,16 @@ const getAllBookings = (req, res, next) => {
         .catch(err => next(err))
 }
 
+const getAllRoomBookings = (req, res, next) => {
+
+    const { room_id } = req.params
+
+    Booking
+        .find()
+        .then((bookings) => res.json(bookings))
+        .catch(err => next(err))
+}
+
 const getOneBooking = (req, res, next) => {
 
     const { booking_id } = req.params
@@ -54,6 +64,7 @@ const deleteBooking = (req, res, next) => {
 module.exports = {
     createBooking,
     getAllBookings,
+    getAllRoomBookings,
     getOneBooking,
     editBooking,
     deleteBooking
