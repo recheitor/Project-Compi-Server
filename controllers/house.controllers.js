@@ -1,4 +1,6 @@
 const House = require("../models/House.model")
+const User = require("../models/User.model")
+
 const { getHouseData, getNewHouseData } = require("../utils/house.utils")
 
 const createHouse = (req, res, next) => {
@@ -26,10 +28,6 @@ const getHousesbyType = (req, res, next) => {
     let query = { rooms: queryType }
     let sortBy = ''
 
-    let { price } = req.query
-    if (price) {
-        query = { ...query, ...{ "price.housePrice": price } }
-    }
 
     let { beds } = req.query
     if (beds) {
@@ -43,26 +41,27 @@ const getHousesbyType = (req, res, next) => {
         query = { ...query, ...bathroomObj }
     }
 
-    let { sort } = req.query
-    if (sort === 'beds') {
-        sortBy = { "info.beds": 1 }
+    let { maxGuests } = req.query
+    if (maxGuests) {
+        const maxGuestsObj = { "info.maxGuests": { $gte: maxGuests } }
+        query = { ...query, ...maxGuestsObj }
     }
-    console.log(query)
 
+    let { rooms } = req.query
+    if (rooms) {
+        const roomsObj = { "info.rooms": { $gte: rooms } }
+        query = { ...query, ...roomsObj }
+    }
 
-    // let { title } = req.query;
-    // if (title) {
-    //     query.title = title
-    // }
+    let { price } = req.query
+    if (price) {
+        const priceObj = { "price.housePrice": { $lte: price } }
+        query = { ...query, ...priceObj }
+    }
 
-    // let { description } = req.query;
-    // if (description) {
-    //     query.description = description
-    // }
 
     House
         .find(query)
-        .sort(sortBy)
         .populate(['rooms',
             'rating',
             {
@@ -137,6 +136,28 @@ const editHouse = (req, res, next) => {
         .catch(err => next(err))
 }
 
+const addFavoriteHouse = (req, res, next) => {
+
+    const { house_id } = req.params
+    const { _id } = req.payload
+
+    User
+        .findByIdAndUpdate(_id, { $push: { favorites: house_id } })
+        .then(() => res.status(200).json({ message: "User favorites updated" }))
+        .catch(err => next(err))
+}
+
+const deleteFavoriteHouse = (req, res, next) => {
+
+    const { house_id } = req.params
+    const { _id } = req.payload
+
+    User
+        .findByIdAndUpdate(_id, { $pull: { favorites: house_id } })
+        .then(() => res.status(200).json({ message: "User favorites updated" }))
+        .catch(err => next(err))
+}
+
 const deleteHouse = (req, res, next) => {
 
     const { house_id } = req.params
@@ -155,5 +176,7 @@ module.exports = {
     getOneHouse,
     getOneHouseRoom,
     editHouse,
+    addFavoriteHouse,
+    deleteFavoriteHouse,
     deleteHouse
 }
