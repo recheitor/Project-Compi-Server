@@ -13,13 +13,15 @@ const getHouseData = ({
     zipcode,
     city,
     country,
-    amenities
+    amenities,
+    coordinates
 }, { _id: owner }) => {
 
     const price = { housePrice, cleaningPrice }
     const address = { street, number, zipcode, city, country }
     const info = { maxGuests, rooms, beds, bathrooms }
-    const houseData = { title, gallery, description, info, price, address, owner, amenities }
+    const location = { coordinates }
+    const houseData = { title, gallery, description, info, price, address, owner, amenities, location }
 
 
     return houseData
