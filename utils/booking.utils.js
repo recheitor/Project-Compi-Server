@@ -1,8 +1,8 @@
-const getBookingData = ({ house, room, user, entry, exit, guestsNumber, price }) => {
+const getBookingData = ({ room, user, entry, exit, price }, { _id }) => {
 
     const bookingDates = { entry, exit }
-    const bookingData = { house, room, user, bookingDates, guestsNumber, price }
-
+    const bookingData = { room, user, bookingDates, price }
+    bookingData.user = _id
     return bookingData
 }
 

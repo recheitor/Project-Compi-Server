@@ -1,4 +1,5 @@
 const router = require("express").Router();
+
 const {
     createBooking,
     getAllBookings,
@@ -7,13 +8,14 @@ const {
     editBooking,
     deleteBooking
 } = require("../controllers/booking.controllers");
+const { verifyToken } = require('../middleware/verifyToken');
 
 
-router.post('/create-booking', createBooking)
+router.post('/create-booking', verifyToken, createBooking)
 
 router.get("/get-all-bookings", getAllBookings)
 
-router.get("/get-all-room-bookings", getAllRoomBookings)
+router.get("/get-all-room-bookings/:room_id", getAllRoomBookings)
 
 router.get("/:booking_id", getOneBooking)
 

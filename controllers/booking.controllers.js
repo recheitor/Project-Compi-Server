@@ -2,12 +2,11 @@ const Booking = require("../models/Booking.model")
 const { getBookingData, getNewBookingData } = require("../utils/booking.utils")
 
 const createBooking = (req, res, next) => {
-
-    const bookingData = getBookingData(req.body)
+    const bookingData = getBookingData(req.body, req.payload)
 
     Booking
         .create(bookingData)
-        .then((booking) => res.json(booking))
+        .then((booking) => res.status(201).json(booking))
         .catch(err => next(err))
 }
 
@@ -21,10 +20,10 @@ const getAllBookings = (req, res, next) => {
 
 const getAllRoomBookings = (req, res, next) => {
 
-    const { room_id } = req.params
+    const { room_id: room } = req.params
 
     Booking
-        .find()
+        .find({ room })
         .then((bookings) => res.json(bookings))
         .catch(err => next(err))
 }
