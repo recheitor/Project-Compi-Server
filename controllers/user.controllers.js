@@ -16,7 +16,8 @@ const users = (req, res, next) => {
         .populate([
             'rating',
             {
-                path: 'rating', populate: {
+                path: 'rating',
+                populate: {
                     path: 'userId'
                 }
             },
@@ -35,7 +36,8 @@ const user = (req, res, next) => {
         .populate([
             'rating',
             {
-                path: 'rating', populate: {
+                path: 'rating',
+                populate: {
                     path: 'userId'
                 }
             },
@@ -52,7 +54,7 @@ const editUser = (req, res, next) => {
 
     User
         .findByIdAndUpdate(user_id, newUserData)
-        .then(() => res.json({ message: "User edited" }))
+        .then(() => res.sendStatus(200))
         .catch(err => next(err))
 }
 
@@ -62,7 +64,7 @@ const deleteUser = (req, res, next) => {
 
     User
         .findByIdAndDelete(user_id)
-        .then(() => res.status(202).json({ message: "User deleted" }))
+        .then(() => res.sendStatus(204))
         .catch(err => next(err))
 }
 

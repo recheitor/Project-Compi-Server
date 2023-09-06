@@ -10,11 +10,8 @@ const createRoom = (req, res, next) => {
 
     Room
         .create(roomsData)
-        .then(({ _id }) => {
-            House
-                .findByIdAndUpdate(house_id, { $push: { rooms: _id } })
-                .then((house) => res.status(201).json(house))
-        })
+        .then(({ _id }) => House.findByIdAndUpdate(house_id, { $push: { rooms: _id } }))
+        .then((house) => res.status(201).json(house))
         .catch(err => next(err))
 }
 
@@ -44,7 +41,7 @@ const editRoom = (req, res, next) => {
 
     Room
         .findByIdAndUpdate(room_id, newRoomsData)
-        .then(() => res.status(200).json({ message: "Room edited" }))
+        .then(() => res.sendStatus(200))
         .catch(err => next(err))
 }
 
@@ -53,13 +50,14 @@ const deleteRoom = (req, res, next) => {
     const { room_id } = req.params
     const { house_id } = req.body
 
+    //TODO PROMISE ALL
     House
         .findByIdAndUpdate(house_id, { $pull: { rooms: room_id } })
-        .then(() => res.status(200).json({ message: "Room deleted from house" }))
+        .then(() => res.sendStatus(204))
         .catch(err => next(err))
     Room
         .findByIdAndDelete(room_id)
-        .then(() => res.status(200).json({ message: "Room deleted" }))
+        .then(() => res.sendStatus(204))
         .catch(err => next(err))
 }
 

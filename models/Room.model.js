@@ -46,6 +46,10 @@ const roomSchema = new Schema(
                 required: [true, 'Cleaning price is required'],
             }
         },
+        bookings: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Bookings'
+        }],
         rating: [{
             type: Schema.Types.ObjectId,
             ref: 'Rating'

@@ -44,7 +44,7 @@ const deleteRating = (req, res, next) => {
 
     Rating
         .findByIdAndDelete(rating_id)
-        .then(() => res.status(200).json({ message: "Rating deleted" }))
+        .then(() => res.sendStatus(204))
         .catch(err => next(err))
 }
 

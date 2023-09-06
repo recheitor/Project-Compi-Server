@@ -25,47 +25,27 @@ const getHousesbyType = (req, res, next) => {
 
     const { rent_type } = req.params
     const queryType = rent_type === 'entire' ? [] : { $not: { $eq: [] } }
+
+    // TODO: MOVER A UTILS
     let query = { rooms: queryType }
     let sortBy = ''
 
 
-    let { beds } = req.query
-    if (beds) {
-        const bedsObj = { "info.beds": { $gte: beds } }
-        query = { ...query, ...bedsObj }
-    }
+    let { beds, bathrooms, maxGuests, rooms, price } = req.query
 
-    let { bathrooms } = req.query
-    if (bathrooms) {
-        const bathroomObj = { "info.bathrooms": { $gte: bathrooms } }
-        query = { ...query, ...bathroomObj }
-    }
-
-    let { maxGuests } = req.query
-    if (maxGuests) {
-        const maxGuestsObj = { "info.maxGuests": { $gte: maxGuests } }
-        query = { ...query, ...maxGuestsObj }
-    }
-
-    let { rooms } = req.query
-    if (rooms) {
-        const roomsObj = { "info.rooms": { $gte: rooms } }
-        query = { ...query, ...roomsObj }
-    }
-
-    let { price } = req.query
-    if (price) {
-        const priceObj = { "price.housePrice": { $lte: price } }
-        query = { ...query, ...priceObj }
-    }
-
+    beds && (query = { ...query, ...{ "info.beds": { $gte: beds } } })
+    bathrooms && (query = { ...query, ...{ "info.bathrooms": { $gte: bathrooms } } })
+    maxGuests && (query = { ...query, ...{ "info.maxGuests": { $gte: maxGuests } } })
+    rooms && (query = { ...query, ...{ "info.rooms": { $gte: rooms } } })
+    price && (query = { ...query, ...{ "price.housePrice": { $lte: price } } })
 
     House
         .find(query)
         .populate(['rooms',
             'rating',
             {
-                path: 'owner', populate: {
+                path: 'owner',
+                populate: {
                     path: 'rating'
                 }
             },
@@ -95,7 +75,8 @@ const getOneHouse = (req, res, next) => {
         .populate([
             'rating',
             {
-                path: 'owner', populate: {
+                path: 'owner',
+                populate: {
                     path: 'rating'
                 }
             },
@@ -111,10 +92,23 @@ const getOneHouseRoom = (req, res, next) => {
 
     House
         .findById(house_id)
-        .populate(['rooms',
+        .populate([
             'rating',
             {
-                path: 'owner', populate: {
+                path: 'rooms',
+                populate: {
+                    path: 'bookings',
+                    populate: {
+                        path: 'user',
+                        populate: {
+                            path: 'rating'
+                        }
+                    }
+                }
+            },
+            {
+                path: 'owner',
+                populate: {
                     path: 'rating'
                 }
             },
@@ -132,7 +126,7 @@ const editHouse = (req, res, next) => {
 
     House
         .findByIdAndUpdate(house_id, newHouseData)
-        .then(() => res.status(200).json({ message: "House edited" }))
+        .then(() => res.sendStatus(200))
         .catch(err => next(err))
 }
 
@@ -143,7 +137,7 @@ const addFavoriteHouse = (req, res, next) => {
 
     User
         .findByIdAndUpdate(_id, { $push: { favorites: house_id } })
-        .then(() => res.status(200).json({ message: "User favorites updated" }))
+        .then(() => res.sendStatus(200))
         .catch(err => next(err))
 }
 
@@ -154,7 +148,7 @@ const deleteFavoriteHouse = (req, res, next) => {
 
     User
         .findByIdAndUpdate(_id, { $pull: { favorites: house_id } })
-        .then(() => res.status(200).json({ message: "User favorites updated" }))
+        .then(() => res.sendStatus(200))
         .catch(err => next(err))
 }
 
@@ -164,7 +158,7 @@ const deleteHouse = (req, res, next) => {
 
     House
         .findByIdAndDelete(house_id)
-        .then(() => res.status(200).json({ message: "House deleted" }))
+        .then(() => res.sendStatus(204))
         .catch(err => next(err))
 }
 
