@@ -36,7 +36,7 @@ const editAmenity = (req, res, next) => {
 
     Amenity
         .findByIdAndUpdate(amenity_id, newAmenityData)
-        .then(() => res.status(200).json({ message: "Amenity edited" }))
+        .then(() => res.sendStatus(204))
         .catch(err => next(err))
 }
 
@@ -46,7 +46,7 @@ const deleteAmenity = (req, res, next) => {
 
     Amenity
         .findByIdAndDelete(amenity_id)
-        .then(() => res.status(200).json({ message: "Amenity deleted" }))
+        .then(() => res.sendStatus(204))
         .catch(err => next(err))
 }
 

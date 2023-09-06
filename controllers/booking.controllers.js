@@ -1,12 +1,19 @@
 const Booking = require("../models/Booking.model")
+const Room = require("../models/Room.model")
+
 const { getBookingData, getNewBookingData } = require("../utils/booking.utils")
 
 const createBooking = (req, res, next) => {
+
     const bookingData = getBookingData(req.body, req.payload)
+    const { room } = req.body
 
     Booking
         .create(bookingData)
-        .then((booking) => res.status(201).json(booking))
+        .then(({ _id: bookingId }) => {
+            return Room.findByIdAndUpdate(room, { $push: { bookings: bookingId } })
+        })
+        .then(() => res.sendStatus(204))
         .catch(err => next(err))
 }
 
@@ -14,6 +21,15 @@ const getAllBookings = (req, res, next) => {
 
     Booking
         .find()
+        .then((bookings) => res.json(bookings))
+        .catch(err => next(err))
+}
+
+const getAllMyBookings = (req, res, next) => {
+    const { user_id: user } = req.params
+    Booking
+        .find({ user })
+        .populate('room')
         .then((bookings) => res.json(bookings))
         .catch(err => next(err))
 }
@@ -45,7 +61,7 @@ const editBooking = (req, res, next) => {
 
     Booking
         .findByIdAndUpdate(booking_id, newBookingData)
-        .then(() => res.status(200).json({ message: "Booking edited" }))
+        .then(() => res.sendStatus(204))
         .catch(err => next(err))
 }
 
@@ -55,7 +71,7 @@ const deleteBooking = (req, res, next) => {
 
     Booking
         .findByIdAndDelete(booking_id)
-        .then(() => res.status(200).json({ message: "Booking deleted" }))
+        .then(() => res.sendStatus(204))
         .catch(err => next(err))
 }
 
@@ -63,6 +79,7 @@ const deleteBooking = (req, res, next) => {
 module.exports = {
     createBooking,
     getAllBookings,
+    getAllMyBookings,
     getAllRoomBookings,
     getOneBooking,
     editBooking,
