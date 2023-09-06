@@ -4,6 +4,7 @@ const {
     createBooking,
     getAllBookings,
     getAllRoomBookings,
+    getAllMyBookings,
     getOneBooking,
     editBooking,
     deleteBooking
@@ -16,6 +17,8 @@ router.post('/create-booking', verifyToken, createBooking)
 router.get("/get-all-bookings", getAllBookings)
 
 router.get("/get-all-room-bookings/:room_id", getAllRoomBookings)
+
+router.get("/get-all-my-bookings/:user_id", getAllMyBookings)
 
 router.get("/:booking_id", getOneBooking)
 
