@@ -17,6 +17,16 @@ const getAllHouses = (req, res, next) => {
 
     House
         .find()
+        .populate(['rooms',
+            'rating',
+            {
+                path: 'owner',
+                populate: {
+                    path: 'rating'
+                }
+            },
+            'amenities.amenity'
+        ])
         .then((houses) => res.json(houses))
         .catch(err => next(err))
 }
@@ -31,7 +41,7 @@ const getHousesbyType = (req, res, next) => {
 
 
     House
-        .find(getQueryData(req.query, query))
+        .find(getQueryData(req.query, query, req.payload))
         .populate(['rooms',
             'rating',
             {

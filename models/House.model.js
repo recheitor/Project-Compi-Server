@@ -5,7 +5,7 @@ const houseSchema = new Schema(
         title: {
             type: String,
             required: [true, 'Title is required.'],
-            lowercase: true,
+
             trim: true
         },
         gallery: {
@@ -18,7 +18,7 @@ const houseSchema = new Schema(
         description: {
             type: String,
             required: [true, 'description is required.'],
-            lowercase: true,
+
             trim: true
         },
         info: {
@@ -54,6 +54,7 @@ const houseSchema = new Schema(
             number: Number,
             zipcode: Number,
             city: String,
+            province: String,
             country: String
         },
         location: {

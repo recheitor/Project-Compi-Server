@@ -5,7 +5,7 @@ const { verifyToken } = require("../middleware/verifyToken")
 // falta testear accomodationServices + adress googlemaps + owner
 router.post('/create-house', verifyToken, createHouse)
 
-router.get("/get-all-houses", verifyToken, getAllHouses)
+router.get("/get-all-houses", getAllHouses)
 
 router.get("/get-houses/:rent_type", verifyToken, getHousesbyType)
 
