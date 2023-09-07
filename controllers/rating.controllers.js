@@ -5,9 +5,11 @@ const User = require("../models/User.model")
 
 const createRating = (req, res, next) => {
 
-    const { score, comment, user, referedTo, referedToId } = req.body
+    const { score, comment, referedTo, referedToId } = req.body
+    const { _id: user } = req.payload
 
     const ratingData = { score, comment, userId: user }
+
 
     let referedModel
     referedTo === 'House' ? referedModel = House : referedTo === 'Room' ? referedModel = Room : referedModel = User

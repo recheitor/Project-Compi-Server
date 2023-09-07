@@ -1,7 +1,7 @@
 const House = require("../models/House.model")
 const User = require("../models/User.model")
-
 const { getHouseData, getNewHouseData } = require("../utils/house.utils")
+const { getQueryData } = require("../utils/query.utils")
 
 const createHouse = (req, res, next) => {
 
@@ -26,21 +26,12 @@ const getHousesbyType = (req, res, next) => {
     const { rent_type } = req.params
     const queryType = rent_type === 'entire' ? [] : { $not: { $eq: [] } }
 
-    // TODO: MOVER A UTILS
     let query = { rooms: queryType }
-    let sortBy = ''
 
 
-    let { beds, bathrooms, maxGuests, rooms, price } = req.query
-
-    beds && (query = { ...query, ...{ "info.beds": { $gte: beds } } })
-    bathrooms && (query = { ...query, ...{ "info.bathrooms": { $gte: bathrooms } } })
-    maxGuests && (query = { ...query, ...{ "info.maxGuests": { $gte: maxGuests } } })
-    rooms && (query = { ...query, ...{ "info.rooms": { $gte: rooms } } })
-    price && (query = { ...query, ...{ "price.housePrice": { $lte: price } } })
 
     House
-        .find(query)
+        .find(getQueryData(req.query, query))
         .populate(['rooms',
             'rating',
             {
