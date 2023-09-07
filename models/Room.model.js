@@ -5,7 +5,6 @@ const roomSchema = new Schema(
         title: {
             type: String,
             required: [true, 'Title is required.'],
-            lowercase: true,
             trim: true
         },
         gallery: {
@@ -18,7 +17,6 @@ const roomSchema = new Schema(
         description: {
             type: String,
             required: [true, 'Description is required.'],
-            lowercase: true,
             trim: true
         },
         info: {
