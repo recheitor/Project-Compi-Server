@@ -84,7 +84,12 @@ const getOneHouseRoom = (req, res, next) => {
     House
         .findById(house_id)
         .populate([
-            'rating',
+            {
+                path: 'rating',
+                populate: {
+                    path: 'userId'
+                }
+            },
             {
                 path: 'rooms',
                 populate: {
