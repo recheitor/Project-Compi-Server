@@ -10,8 +10,6 @@ const getQueryData = ({ beds, bathrooms, maxGuests, rooms, price, province, user
         (query = { ...query, ...{ _id: { $in: favorites } } })
     }
 
-
-
     return query
 }
 

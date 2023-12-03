@@ -4,7 +4,6 @@ const { getRoomData, getNewRoomData } = require("../utils/room.utils")
 
 const createRoom = (req, res, next) => {
 
-
     const roomsData = getRoomData(req.body)
     const { house_id } = req.body
 

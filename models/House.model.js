@@ -12,7 +12,7 @@ const houseSchema = new Schema(
             type: [String],
             validate: {
                 validator: value => value.length > 0,
-                message: 'Mínimo una foto'
+                message: 'One photo is required.'
             }
         },
         description: {

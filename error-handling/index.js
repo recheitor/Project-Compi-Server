@@ -1,9 +1,9 @@
 module.exports = (app) => {
-  app.use((req, res, next) => {
+  app.use((req, res) => {
     res.status(404).json({ message: "This route does not exist" });
   });
 
-  app.use((err, req, res, next) => {
+  app.use((err, req, res) => {
     console.error("ERROR", req.method, req.path, err);
 
     if (!res.headersSent) {

@@ -16,7 +16,8 @@ const getHouseData = ({
     country,
     amenities,
     coordinates
-}, { _id: owner }) => {
+},
+    { _id: owner }) => {
 
     const price = { housePrice, cleaningPrice }
     const address = { street, number, zipcode, city, province, country }
@@ -43,8 +44,7 @@ const getNewHouseData = ({
     zipcode,
     city,
     country,
-    amenities,
-    included }) => {
+    amenities }) => {
 
     const price = { housePrice, cleaningPrice }
     const address = { street, number, zipcode, city, country }

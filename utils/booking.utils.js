@@ -3,6 +3,7 @@ const getBookingData = ({ room, user, entry, exit, price }, { _id }) => {
     const bookingDates = { entry, exit }
     const bookingData = { room, user, bookingDates, price }
     bookingData.user = _id
+
     return bookingData
 }
 
